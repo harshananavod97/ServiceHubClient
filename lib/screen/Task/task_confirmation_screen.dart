@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/utils/constant.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:servicehub_client/Colors.dart';
-import 'package:servicehub_client/screen/task_complete_screen.dart';
 import 'package:servicehub_client/styles.dart';
-import 'package:servicehub_client/widget/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskConfirmationScreen extends StatefulWidget {

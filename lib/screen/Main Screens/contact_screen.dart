@@ -14,6 +14,9 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
+
+
+
   String googleApikey = "AIzaSyCiBivWTYU4Vc6PnlOQXGJBHOcpPNiFLmA";
   double latitude = 7.977079;
   double Longitude = 79.861244;
@@ -23,6 +26,8 @@ class _ContactScreenState extends State<ContactScreen> {
   Position? currentPosition;
   final mapfocus = FocusNode();
   final fullNameControlleer = TextEditingController();
+
+  
   //get map controller to access map
   Completer<GoogleMapController> _googleMapController = Completer();
   CameraPosition? _cameraPosition;

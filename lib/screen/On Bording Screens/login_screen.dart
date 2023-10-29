@@ -6,7 +6,7 @@ import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/provider/auth_provider.dart';
 
-import 'package:servicehub_client/screen/register_screen.dart';
+import 'package:servicehub_client/screen/On%20Bording%20Screens/register_screen.dart';
 
 import 'package:servicehub_client/widget/app_name_widget.dart';
 import 'package:servicehub_client/widget/rounded_button.dart';
@@ -21,11 +21,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   AutovalidateMode switched = AutovalidateMode.disabled;
-  final _phnnoformKey = GlobalKey<FormState>();
-  String phone_number = '', email = '', full_name = '';
+
   Apicontroller apicontroller = Apicontroller();
-  final phoneFocusNode = FocusNode();
   final phoneNumberControlleer = TextEditingController();
+
+  final _phnnoformKey = GlobalKey<FormState>();
+
+  String email = '';
+
+  final phoneFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -112,7 +117,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           switched = AutovalidateMode.always;
                         });
                         if (_phnnoformKey.currentState!.validate()) {
-                          // form is valid, do something
                           apicontroller.otpgenarate(
                               phoneNumberControlleer.text, context);
                         }
@@ -140,8 +144,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPress: () async {
                         await Provider.of<AuthProvider>(context, listen: false)
                             .signInWithFacebook(context);
-
-               
                       },
                     ),
                     const SizedBox(
@@ -155,7 +157,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPress: () async {
                         await Provider.of<AuthProvider>(context, listen: false)
                             .googleAuth(context);
-                        
                       },
                     ),
                   ],

@@ -12,11 +12,12 @@ import 'package:servicehub_client/provider/auth_provider.dart';
 import 'package:servicehub_client/provider/map_provider.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:servicehub_client/screen/appontment_screen.dart';
+import 'package:servicehub_client/screen/Appoiment/appontment_screen.dart';
 
-import 'package:servicehub_client/screen/splash_screen.dart';
+import 'package:servicehub_client/screen/On%20Bording%20Screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//Fire Base Push Noti
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
@@ -129,6 +130,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Apicontroller apicontroller = Apicontroller();
   String customerid = "";
+
+  //get Use Customer Id
+
   getUserData() async {
     String? fcmKey = await getFcmToken();
     final ids = await SharedPreferences.getInstance();
@@ -140,27 +144,15 @@ class _MyAppState extends State<MyApp> {
           : customerid = idss.getString("id").toString();
       apicontroller.getcustomerdetails(customerid, context);
     });
-    apicontroller.CustomerFcmKeyUpdate(customerid, fcmKey.toString());
+
+    //Used To Update Fcm Key
+    apicontroller.CustomerFcmKeyUpdat(customerid, fcmKey.toString());
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
     getUserData();
-
-    if (widget.message != null) {
-      Future.delayed(const Duration(milliseconds: 2500)).then((value) {
-        print("show notoifiaction");
-        // Navigator.push(
-        //   navigatorKey.currentState!.context,
-        //   MaterialPageRoute(
-        //     builder: (context) => NotificationScreen(),
-        //   ),
-        // );
-      });
-    }
   }
 
   @override
@@ -172,7 +164,7 @@ class _MyAppState extends State<MyApp> {
     });
     return MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'Flutter Demo',
+      title: 'Service Hub Customer',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/model/AddressList.dart';
-import 'package:servicehub_client/screen/profile_screen.dart';
-import 'package:servicehub_client/screen/task_confirmation_screen.dart';
+import 'package:servicehub_client/screen/Profile/profile_screen.dart';
+import 'package:servicehub_client/screen/Task/task_confirmation_screen.dart';
 import 'package:servicehub_client/styles.dart';
 import 'package:servicehub_client/utils/Custom_Text.dart';
 import 'package:servicehub_client/utils/constant.dart';
@@ -12,7 +12,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import '../utils/Navigation_Function.dart';
+import '../../utils/Navigation_Function.dart';
+
+
+
+
+
+
 
 // ignore: must_be_immutable
 class AppoinmentTaskScreen extends StatefulWidget {
@@ -24,12 +30,41 @@ class AppoinmentTaskScreen extends StatefulWidget {
 }
 
 class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
+  
+  
+  
+  
+  //Global Keys
   final _timeformKey = GlobalKey<FormState>();
   final _dateformKey = GlobalKey<FormState>();
   final _budgetformKey = GlobalKey<FormState>();
-
   final _additionalinformation = GlobalKey<FormState>();
+
+
+
+  //Controllers
+  Apicontroller apicontroller = Apicontroller();
+  final dateControlleer = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+  final budgetControlleer = TextEditingController();
+  final locationControlleer = TextEditingController();
+  final additionalInformationControlleer = TextEditingController();
+
+
+
+  //Focus Nodes
+  final dateFocusNode = FocusNode();
+  final timeFocusNode = FocusNode();
+  final budgetFocusNode = FocusNode();
+  final locationFocusNode = FocusNode();
+  final additionalInformationFocusNode = FocusNode();
+
+
   AutovalidateMode switched = AutovalidateMode.disabled;
+
+
+//Veriables
+  String addresstype = 'home';
   String customerid = '';
   String homeaddress1 = '', homeaddress2 = '', homecity = '';
   String officeaddress1 = '', officeaddress2 = '', officecity = '';
@@ -48,6 +83,11 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
   Color textcolor3 = lightText;
 
   List<AddressList> addresslists = [];
+
+
+
+
+  //Address Load  To Using Shared
   Future<List<AddressList>> GetCustomerAddressList(String customerid) async {
     print(customerid);
     final addressload = await SharedPreferences.getInstance();
@@ -73,10 +113,7 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
             addressload.setString(
                 'homeaddress2', data[i]['address_2'].toString());
             addressload.setString('homecity', data[i]['city'].toString());
-//  await addressload.setDouble(
-//                                   'homelatitude', latitude);
-//                               await addressload.setDouble(
-//                                   'homelogitude', logitude);
+
           } else if (data[i]['address_type'].toString() == "Other") {
             addressload.setString(
                 'otheraddress1', data[i]['address_1'].toString());
@@ -157,9 +194,7 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
             othercity = "";
           }
 
-          //     : "";
-          // otherlogitude = addressload.getDouble('otherlogitude').toString();
-          // otherlatitude = addressload.getDouble('otherlatitude').toString();
+          
         });
       });
 
@@ -171,6 +206,8 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
     }
   }
 
+
+//Get User Data
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
@@ -179,10 +216,11 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
         : customerid = idss.getString("id").toString();
     GetCustomerAddressList(customerid.toString());
 
-    //await prefs.setBool('isLogged', false);
+  
   }
 
-  // ignore: non_constant_identifier_names
+
+//Get Address Id
   GetAddressId(String customer_id, String address_type) async {
     var url = Uri.parse(constant.APPEND_URL +
         "customer-address-id?customer_id=$customer_id&address_type=$address_type");
@@ -200,32 +238,9 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
 
     //Creating a list to store input data;
   }
+  
+//Address Select Veriables
 
-  String addresstype = 'home';
-  Apicontroller apicontroller = Apicontroller();
-  final dateControlleer = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
-  final budgetControlleer = TextEditingController();
-  final locationControlleer = TextEditingController();
-  final additionalInformationControlleer = TextEditingController();
-
-  final dateFocusNode = FocusNode();
-  final timeFocusNode = FocusNode();
-  final budgetFocusNode = FocusNode();
-  final locationFocusNode = FocusNode();
-  final additionalInformationFocusNode = FocusNode();
-
-  @override
-  void dispose() {
-    super.dispose();
-    dateControlleer.dispose();
-
-    budgetControlleer.dispose();
-    dateFocusNode.dispose();
-    timeFocusNode.dispose();
-    budgetFocusNode.dispose();
-    additionalInformationFocusNode.dispose();
-  }
 
   void selectAddress1() {
     setState(() {
@@ -263,15 +278,34 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
     });
   }
 
+
+
+
+ 
+
+  @override
+  void dispose() {
+    super.dispose();
+    dateControlleer.dispose();
+
+    budgetControlleer.dispose();
+    dateFocusNode.dispose();
+    timeFocusNode.dispose();
+    budgetFocusNode.dispose();
+    additionalInformationFocusNode.dispose();
+  }
+
+  
   @override
   void initState() {
+
     getUserData();
-
     GetAddressId(customerid.toString(), addresstype.toString());
-
     super.initState();
   }
 
+
+//Date Picker
   int index = 0;
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -289,6 +323,7 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
       });
     }
   }
+//Time Picker
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -296,6 +331,7 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
       initialTime: TimeOfDay.now(),
     );
     if (picked != null) {
+      // ignore: use_build_context_synchronously
       String formattedTime = TimeOfDay(hour: picked.hour, minute: picked.minute)
           .format(context)
           .replaceAll(RegExp('[a-z]'), ''); // remove 'am' or 'pm'
@@ -830,6 +866,11 @@ class _AppoinmentTaskScreenState extends State<AppoinmentTaskScreen> {
     );
   }
 }
+
+
+
+
+//Slider
 
 class SliderItem extends StatelessWidget {
   const SliderItem({

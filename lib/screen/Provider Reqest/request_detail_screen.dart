@@ -7,7 +7,7 @@ import 'package:servicehub_client/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:servicehub_client/Colors.dart';
-import 'package:servicehub_client/screen/appoinment_info_2_screen.dart';
+import 'package:servicehub_client/screen/Appoiment/appoinment_info_2_screen.dart';
 import 'package:servicehub_client/styles.dart';
 import 'package:servicehub_client/widget/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +24,9 @@ class RequestDetailScreen extends StatefulWidget {
 }
 
 class _RequestDetailScreenState extends State<RequestDetailScreen> {
+  //Get Customer Name
   String name = '';
+
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();
     setState(() {
@@ -35,7 +37,10 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
     });
   }
 
+//Get Fcm Key
+
   String fcmkey = "";
+
   getproviderrdata() async {
     final providerdetails = await SharedPreferences.getInstance();
     setState(() {
@@ -44,9 +49,13 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
   }
 
   Apicontroller apicontroller = Apicontroller();
+
   var rating = 0.0;
   List<JobProvider> jobprovider = [];
   List<ProviderDetails> providerlist = [];
+
+  //Load Provider Reqest Details
+
   Future<List<ProviderDetails>> getProviderDetails(String id) async {
     providerlist.clear();
     var url = Uri.parse(
@@ -78,7 +87,7 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
 
     super.initState();
     getProviderDetails(widget.indexes.toString());
-    print("reques job id is :" + widget.indexes.toString());
+    // print("reques job id is :" + widget.indexes.toString());
     getcustomerdata();
   }
 

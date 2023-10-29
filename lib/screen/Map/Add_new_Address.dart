@@ -20,6 +20,9 @@ class AddNewAdrressScreen extends StatefulWidget {
 }
 
 class _AddNewAdrressScreenState extends State<AddNewAdrressScreen> {
+
+
+  //Address Veribales (Home Office Others)
   String haddressType = '', haddress1 = '', haddress2 = '', hcity = '';
   String ofaddressType = '', ofaddress1 = '', ofaddress2 = '', ofcity = '';
   String oaddressType = '', oaddress1 = '', oaddress2 = '', ocity = '';
@@ -49,6 +52,8 @@ class _AddNewAdrressScreenState extends State<AddNewAdrressScreen> {
   String location = "Search Location";
   Position? currentPosition; // Add this line
 
+
+//Get Id
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     id = ids.getString("id").toString();

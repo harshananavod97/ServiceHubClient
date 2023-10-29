@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/model/pastappoiments.dart';
-import 'package:servicehub_client/screen/Rate_Experience.dart';
+import 'package:servicehub_client/screen/Provider%20Reqest/Rate_Experience.dart';
 import 'package:servicehub_client/utils/Navigation_Function.dart';
 import 'package:servicehub_client/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,10 +21,14 @@ class PastAppoinmentInfoScreen extends StatefulWidget {
 }
 
 class _PastAppoinmentInfoScreenState extends State<PastAppoinmentInfoScreen> {
-  String customerid = '';
+  
 
-  //int widget.index = widget.pastwidget.index;
+
+//Get Past Appoinments
+
   List<PastApoinmentList> pastapoinmentlist = [];
+
+
   Future<List<PastApoinmentList>> getPastApoiment(String id) async {
     var url = Uri.parse(
         // ignore: prefer_interpolation_to_compose_strings
@@ -51,15 +55,9 @@ class _PastAppoinmentInfoScreenState extends State<PastAppoinmentInfoScreen> {
     }
   }
 
-  void initState() {
-    super.initState();
+//Load Customer Id
 
-    getUserData();
-
-    getPastApoiment(customerid);
-    print("index :" + widget.index.toString());
-  }
-
+String customerid = '';
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
@@ -70,6 +68,17 @@ class _PastAppoinmentInfoScreenState extends State<PastAppoinmentInfoScreen> {
           : customerid = idss.getString("id").toString();
     });
   }
+
+  void initState() {
+    super.initState();
+
+    getUserData();
+
+    getPastApoiment(customerid);
+    print("index :" + widget.index.toString());
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {

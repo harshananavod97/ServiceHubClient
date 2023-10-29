@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/model/appoiments.dart';
-import 'package:servicehub_client/screen/multiple_poiunts_address.dart';
-import 'package:servicehub_client/screen/request_list_screen.dart';
+import 'package:servicehub_client/screen/Provider%20Reqest/request_list_screen.dart';
 import 'package:servicehub_client/utils/constant.dart';
 import 'package:servicehub_client/widget/rounded_button.dart';
 import 'package:http/http.dart' as http;
@@ -105,45 +104,6 @@ class _AppoinmentInfoScreenState extends State<AppoinmentInfoScreen> {
             ),
           ),
           title: const Text('Back'),
-          // actions: [
-          //   FutureBuilder(
-          //     future: getUpocomingApoiment(customerid),
-          //     builder: (context, AsyncSnapshot<List<ApoinmentList>> snapshot) =>
-          //         InkWell(
-          //       onTap: () async {
-          //         print(
-          //             "this is a" + snapshot.data![widget.index].id.toString());
-          //         //dought
-          //         apicontroller.RemoveProviderByCustomer(
-          //             snapshot.data![widget.index].id.toString(), context);
-          //         await apicontroller.getproviderdetails(snapshot
-          //             .data![widget.index].selectedServiceProviderId
-          //             .toString());
-          //         //send push notification for client reqest for job
-          //         //-==============================================================================================
-          //         apicontroller.SendPushNotification(
-          //           fcmkey.toString(),
-          //           "Cancle The Job",
-          //           "Cancled",
-          //           context
-          //         );
-          //         //========================================================================================
-          //       },
-          //       child: Padding(
-          //         padding: EdgeInsets.only(top: 10, right: 25),
-          //         child: Text(
-          //           'Cancel',
-          //           style: TextStyle(
-          //             fontFamily: 'Segoe UI',
-          //             fontSize: 22.0,
-          //             color: Color(0xFFEA4600),
-          //             fontWeight: FontWeight.w600,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 0),
@@ -293,17 +253,17 @@ class _AppoinmentInfoScreenState extends State<AppoinmentInfoScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(),
-                              child: RoundedButton(
-                                buttonText: 'Check Providers Location',
-                                onPress: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MultiplePointsOfMap()));
-                                },
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(),
+                            //   child: RoundedButton(
+                            //     buttonText: 'Check Providers Location',
+                            //     onPress: () {
+                            //       Navigator.of(context).push(MaterialPageRoute(
+                            //           builder: (BuildContext context) =>
+                            //               MultiplePointsOfMap()));
+                            //     },
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 20,
                             )

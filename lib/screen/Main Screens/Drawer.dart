@@ -3,16 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/provider/auth_provider.dart';
-import 'package:servicehub_client/screen/appontment_screen.dart';
-import 'package:servicehub_client/screen/contact_screen.dart';
-import 'package:servicehub_client/screen/faq_screen.dart';
-import 'package:servicehub_client/screen/home_screen.dart';
-import 'package:servicehub_client/screen/login_screen.dart';
-import 'package:servicehub_client/screen/profile_screen.dart';
-
-import 'package:servicehub_client/screen/terms_condition_screen.dart';
+import 'package:servicehub_client/screen/Appoiment/appontment_screen.dart';
+import 'package:servicehub_client/screen/Main%20Screens/contact_screen.dart';
+import 'package:servicehub_client/screen/Main%20Screens/faq_screen.dart';
+import 'package:servicehub_client/screen/Main%20Screens/home_screen.dart';
+import 'package:servicehub_client/screen/On%20Bording%20Screens/login_screen.dart';
+import 'package:servicehub_client/screen/Profile/profile_screen.dart';
+import 'package:servicehub_client/screen/Main%20Screens/terms_condition_screen.dart';
 import 'package:servicehub_client/widget/app_name_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -24,6 +24,10 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int index = 0;
   String name = '';
+
+
+  //Drawer Screen List 
+  
   List<Widget> list = [
     const HomeScreen(),
     AppointmentScreen(
@@ -37,29 +41,6 @@ class _MainScreenState extends State<MainScreen> {
     const LoginScreen(),
   ];
 
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pop(false), //<-- SEE HERE
-                child: new Text('No'),
-              ),
-              TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pop(true), // <-- SEE HERE
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        )) ??
-        false;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -67,40 +48,32 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //back option
-
     return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: index == 0 ? navigationTop : white,
-        foregroundColor: darkText,
-        title: index == 0 ? const Text("Servicehub") : const Text(""),
-      ),
-      body: list[index],
-      drawer: MyDrawer(onTap: (lol, i) {
-        setState(() {
-          // index = i;
-          // Navigator.pop(lol);
-        });
-      }),
-    );
+        backgroundColor: white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: index == 0 ? navigationTop : white,
+          foregroundColor: darkText,
+          title: index == 0 ? const Text("Servicehub") : const Text(""),
+        ),
+        body: list[index],
+        drawer: MyDrawer());
   }
 }
 
-class MyDrawer extends StatefulWidget {
-  final Function onTap;
+//Drawer Screen
 
-  const MyDrawer({super.key, required this.onTap});
+class MyDrawer extends StatefulWidget {
+  const MyDrawer({
+    super.key,
+  });
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  //customer name get api
-
-//user id get api
+  //get user id
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
@@ -114,24 +87,35 @@ class _MyDrawerState extends State<MyDrawer> {
     print("my id is" + customerid);
   }
 
+//get customer name
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();
 
-    setState(() {
-      fullname = customerdetails.getString('full_name').toString() != null
-          ? fullname = customerdetails.getString('full_name').toString()
-          : fullname = "";
-    });
+    setState(
+      () {
+        fullname = customerdetails.getString('full_name').toString() != null
+            ? fullname = customerdetails.getString('full_name').toString()
+            : fullname = "";
+      },
+    );
   }
 
-  final fullNameControlleer = TextEditingController();
+//user login saved
+  looged() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    bool? islog = prefs.getBool('isLogged');
+    print(prefs.getBool('isLogged'));
+  }
+
   String customerid = '';
   String fullname = '';
+  bool islog = false;
+  String id = '';
 
   Apicontroller apicontroller = Apicontroller();
-  bool islog = false;
+  final fullNameControlleer = TextEditingController();
 
-  String id = '';
   @override
   void initState() {
     looged();
@@ -139,13 +123,6 @@ class _MyDrawerState extends State<MyDrawer> {
     getcustomerdata();
 
     super.initState();
-  }
-
-  looged() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    bool? islog = prefs.getBool('isLogged');
-    print(prefs.getBool('isLogged'));
   }
 
   @override
@@ -204,7 +181,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MainScreen(),
+                      builder: (context) => const MainScreen(),
                     )),
               ),
               ListTile(
@@ -318,17 +295,15 @@ class _MyDrawerState extends State<MyDrawer> {
 
                     await prefs.setBool("isLogged", false);
 
-                    // ignore: use_build_context_synchronously
+                    prefs.clear();
 
-                    final addressload = await SharedPreferences.getInstance();
-                    addressload.clear();
+                    //Fb Google Logout Method Called
                     Provider.of<AuthProvider>(context, listen: false)
                         .logout(context);
+
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => LoginScreen()),
                         (route) => false);
-
-                    prefs.clear();
                   }),
             ],
           ),

@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:servicehub_client/model/ServiceCategory.dart';
-import 'package:servicehub_client/screen/appoinment_task_screen.dart';
+import 'package:servicehub_client/screen/Task/appoinment_task_screen.dart';
 import 'package:servicehub_client/utils/constant.dart';
 import 'package:http/http.dart' as http;
-import '../Colors.dart';
+import '../../Colors.dart';
 
 class AllServiceCategory extends StatefulWidget {
   @override
@@ -13,6 +12,8 @@ class AllServiceCategory extends StatefulWidget {
 }
 
 class _AllServiceCategoryState extends State<AllServiceCategory> {
+  //First Letter Capital For Used
+
   String _capitalizeWords(String str) {
     List<String> words = str.split(' ');
     for (int i = 0; i < words.length; i++) {
@@ -20,8 +21,6 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
     }
     return words.join(' ');
   }
-
-  ScrollController _scrollController = ScrollController();
 
   int count = 0;
   int itemcount = 10;
@@ -36,8 +35,7 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
 //GetList of Service  Categories(main page load)
 
   Future<List<Datum>> getServiceCategory(int page) async {
-    //servicenameslist.clear();
-    // ignore: prefer_interpolation_to_compose_strings
+   
     var url = Uri.parse(
         // ignore: prefer_interpolation_to_compose_strings
         constant.APPEND_URL + "service-categories?page=" + page.toString());
@@ -50,7 +48,6 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
 
       final appontment = sericeNamesFromJson(response.body);
 
-      //servicenameslist.addAll(appontment.data);
       print(response.body);
 
       if (_page == 1) {
@@ -68,6 +65,10 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
     }
   }
 
+
+
+//SearchList Load End Point
+
   Future<List<SearchList>> getsercherblecategorylist(String query) async {
     searchlist.clear();
     //replace your restFull API here.
@@ -78,7 +79,6 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
     var data = json.decode(response.body.toString());
     print(response.body);
     if (response.statusCode == 200) {
-      // If the server returns a 200 OK response, parse the JSON
       for (Map i in data) {
         SearchList searchlistnames = SearchList(name: i['name'], id: i['id']);
 
@@ -90,9 +90,16 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
       print(searchlist);
     } else {
       return searchlist;
-      // If the server returns an error, throw an exception
+
       throw Exception('Failed to load data');
     }
+  }
+
+  //Serch Valuve or Not Checking
+  void trueload() {
+    setState(() {
+      searchController.text.isEmpty ? searchvalue = true : searchvalue = false;
+    });
   }
 
   List<String> allItems = [];
@@ -101,22 +108,10 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
 
   bool isLoading = false;
   int pageCount = 1;
-  //ScrollController _scrollController = ScrollController();
-
   TextEditingController searchController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
 
-  @override
-  void initState() {
-    // Display the first 10 items when the widget is first loaded
-
-    //getServiceCategory();
-    //searchController.text = searchtext;
-    // getsercherblecategorylist(searchController.toString());
-    trueload();
-
-    super.initState();
-    _scrollController.addListener(_scrollListener);
-  }
+//Scroll Time Adding Pages
 
   void _scrollListener() {
     if (_scrollController.offset >=
@@ -129,25 +124,25 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
     }
   }
 
+
+
+  @override
+  void initState() {
+    trueload();
+
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+
+
   @override
   void dispose() {
     searchController.dispose();
     super.dispose();
   }
 
-  void trueload() {
-    setState(() {
-      searchController.text.isEmpty ? searchvalue = true : searchvalue = false;
 
-      //searchlist.length > 6 ? searchlist.clear() : searchlist;
-    });
-  }
-
-  void falseload() {
-    setState(() {
-      searchvalue = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +174,6 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
                 onChanged: (value) {
                   trueload();
                 },
-                //  onSubmitted: (value) {},
               ),
             ),
           ),
@@ -347,6 +341,8 @@ class _AllServiceCategoryState extends State<AllServiceCategory> {
     );
   }
 }
+
+//Declare Searched List
 
 class SearchList {
   String name;

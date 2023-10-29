@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
-import 'package:servicehub_client/screen/appontment_screen.dart';
-import 'package:servicehub_client/screen/main_screen.dart';
+import 'package:servicehub_client/screen/Appoiment/appontment_screen.dart';
+import 'package:servicehub_client/screen/Main%20Screens/Drawer.dart';
 import 'package:servicehub_client/widget/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,8 +41,12 @@ class PayementStatus extends StatefulWidget {
 }
 
 class _PayementStatusState extends State<PayementStatus> {
+
+
   String fcmkey = "";
-  getproviderrdata() async {
+
+//provider Fcm Key Load
+  GetProviderFcmKEY() async {
     final providerdetails = await SharedPreferences.getInstance();
     setState(() {
       fcmkey = providerdetails.getString('fcm_key').toString();
@@ -52,6 +56,8 @@ class _PayementStatusState extends State<PayementStatus> {
   Apicontroller apicontroller = Apicontroller();
   String email = '';
 
+
+//Get EMAIL 
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();
 
@@ -219,7 +225,7 @@ class _PayementStatusState extends State<PayementStatus> {
                       await apicontroller
                           .getproviderdetails(widget.SeriviceProviderId);
 
-                      await getproviderrdata();
+                      await GetProviderFcmKEY();
 //==============================================================================================================================================================================================================
                       apicontroller.SendPushNotification(
                           fcmkey,

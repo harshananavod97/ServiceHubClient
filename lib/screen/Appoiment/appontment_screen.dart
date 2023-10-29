@@ -19,6 +19,7 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
+  //CapterLizer
   String _capitalizeWords(String str) {
     List<String> words = str.split(' ');
     for (int i = 0; i < words.length; i++) {
@@ -28,6 +29,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   String customerid = '';
+
   @override
   void initState() {
     super.initState();
@@ -35,9 +37,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     getUserData();
 
     getUpocomingApoiment(customerid);
-    getPastApoiment(customerid); //customer id
+    getPastApoiment(customerid);
   }
 
+//Get Customer Id
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
@@ -50,11 +53,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
     // ignore: prefer_interpolation_to_compose_strings
     print("my id is" + customerid);
-
-    //await prefs.setBool('isLogged', false);
   }
 
   List<ApoinmentList> apoinmentlist = [];
+
+  //Get Upcoming Apoiments
+
   Future<List<ApoinmentList>> getUpocomingApoiment(String id) async {
     apoinmentlist.clear();
     var url = Uri.parse(
@@ -81,6 +85,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       throw Exception('Failed to load data');
     }
   }
+
+//Get Past Appoinments
 
   List<PastApoinmentList> pastapoinmentlist = [];
   Future<List<PastApoinmentList>> getPastApoiment(String id) async {
@@ -168,8 +174,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return AppoinmentCard(
-                            serviceindex: 0.toString(), ////dought
-                            index: index,
+                            serviceindex: 0.toString(),
+                            index: index, //This One Pass To Navigate PAGE
                             jobstatus:
                                 snapshot.data![index].jobStatus.toString(),
                             addresstype: snapshot

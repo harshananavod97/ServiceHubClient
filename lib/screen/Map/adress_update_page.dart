@@ -28,6 +28,9 @@ class UpdateAdress extends StatefulWidget {
 }
 
 class _UpdateAdressState extends State<UpdateAdress> {
+
+
+  //Address Veribales (Home Office Others)
   String haddressType = '', haddress1 = '', haddress2 = '', hcity = '';
   String ofaddressType = '', ofaddress1 = '', ofaddress2 = '', ofcity = '';
   String oaddressType = '', oaddress1 = '', oaddress2 = '', ocity = '';
@@ -60,12 +63,16 @@ class _UpdateAdressState extends State<UpdateAdress> {
   String location = "Search Location";
   Position? currentPosition; // Add this line
 
+
+   //Get User Data
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     id = ids.getString("id").toString();
     print("my id :" + id);
   }
 
+
+//Update TO Get ADDress Id
   GetAddressId(String customer_id, String address_type) async {
     print("GetAddressId id is" + customer_id);
     print("GetAddressId address type " + address_type);

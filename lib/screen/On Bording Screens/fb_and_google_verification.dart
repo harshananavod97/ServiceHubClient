@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/provider/auth_provider.dart';
-import 'package:servicehub_client/screen/login_screen.dart';
+import 'package:servicehub_client/screen/On%20Bording%20Screens/login_screen.dart';
 
 import 'package:servicehub_client/widget/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,18 +19,29 @@ class fbgooglePhoneNumberValidation extends StatefulWidget {
 
 class _fbgooglePhoneNumberValidationState
     extends State<fbgooglePhoneNumberValidation> {
+
+
+
+  Apicontroller apicontroller = Apicontroller();
+  TextEditingController phoneNumberControlleer = TextEditingController();
+
+
   String customerid = '';
+
+
+//Load Customer Id
 
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     customerid = ids.getString("id").toString();
     print("my id is" + customerid);
 
-    //await prefs.setBool('isLogged', false);
+    
   }
 
-  Apicontroller apicontroller = Apicontroller();
-  TextEditingController phoneNumberControlleer = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,11 +144,7 @@ class _fbgooglePhoneNumberValidationState
                           },
                         );
 
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (BuildContext context) =>
-                  //
-                  //
-                  //       const RegisterScreen()));
+                
                 },
               ),
               SizedBox(

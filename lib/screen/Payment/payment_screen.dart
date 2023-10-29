@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/api/payment_api.dart';
-import 'package:servicehub_client/screen/Payment_Status.dart';
+import 'package:servicehub_client/screen/Payment/Payment_Status.dart';
 
 import 'package:servicehub_client/widget/rounded_button.dart';
 import 'package:servicehub_client/widget/webview.dart';
@@ -38,6 +38,9 @@ class PayementScreen extends StatefulWidget {
 }
 
 class _PayementScreenState extends State<PayementScreen> {
+
+//Used To Capitalized
+
   String _capitalizeWords(String str) {
     List<String> words = str.split(' ');
     for (int i = 0; i < words.length; i++) {
@@ -47,13 +50,14 @@ class _PayementScreenState extends State<PayementScreen> {
   }
 
   Apicontroller apicontroller = Apicontroller();
-  String TransactionId = '';
 
+  //Veriables
+
+  String TransactionId = '';
   String urll = '';
   String Phn_no = "";
   String email = "";
   String customerid = "";
-
   int _activeIndex = 0;
 
   void _handleTap(int index) {
@@ -62,6 +66,7 @@ class _PayementScreenState extends State<PayementScreen> {
     });
   }
 
+//Customer ID Load
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
@@ -72,7 +77,11 @@ class _PayementScreenState extends State<PayementScreen> {
     print("my id is" + customerid);
   }
 
+//Payment Base Url
   String baseurl = "https://api.uat.geniebiz.lk/public";
+
+//Transaction Create End Points
+
   Future<void> CreateTransaction(double amount, String currency) async {
     Map data = {
       "amount": amount,
@@ -106,17 +115,19 @@ class _PayementScreenState extends State<PayementScreen> {
         //URL SAVE
         urll = jsonData['url'].toString();
       });
-      //ID SAVE
+      
 
       index_of_no = 0;
 
-      // Print the URL
+     
     } else {
       Logger().e('Error');
       index_of_no = 1;
     }
-    // await transaction.setInt('index_of_no', index_of_no);
+    
   }
+
+//Load Customer Data
 
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();

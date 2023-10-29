@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/model/AddressList.dart';
-import 'package:servicehub_client/screen/add_new_address.dart';
-import 'package:servicehub_client/screen/adress_update_page.dart';
+import 'package:servicehub_client/screen/Map/Add_new_Address.dart';
 
-import 'package:servicehub_client/screen/verification_screen.dart';
+import 'package:servicehub_client/screen/Map/adress_update_page.dart';
+import 'package:servicehub_client/screen/Profile/verification_screen.dart';
+
+
 import 'package:servicehub_client/utils/Custom_Text.dart';
 import 'package:servicehub_client/utils/Navigation_Function.dart';
 import 'package:servicehub_client/utils/constant.dart';
@@ -18,7 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 
-import '../provider/auth_provider.dart';
+import '../../provider/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,11 +32,36 @@ class ProfileScreen extends StatefulWidget {
 //Creating a list to store input data;
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  int maxlenth = 10;
+
+
+
+  
+
+
+
   final _fullnameformKey = GlobalKey<FormState>();
   final _emailformKey = GlobalKey<FormState>();
   final _phnnumberformkey = GlobalKey<FormState>();
+
+  TextEditingController idcontroller = TextEditingController();
+  TextEditingController haddress1contrller = TextEditingController();
+  TextEditingController haddress2contrller = TextEditingController();
+  TextEditingController hcitycontroller = TextEditingController();
+  TextEditingController ofaddress1contrller = TextEditingController();
+  TextEditingController ofaddress2contrller = TextEditingController();
+  TextEditingController ofcitycontroller = TextEditingController();
+  TextEditingController otaddress1contrller = TextEditingController();
+  TextEditingController otaddress2contrller = TextEditingController();
+  TextEditingController otcitycontroller = TextEditingController();
+  Apicontroller apicontroller = Apicontroller();
+  final fullNameControlleer = TextEditingController();
+  final phoneNumberControlleer = TextEditingController();
+  final emailControlleer = TextEditingController();
+
+  final addressControlleer = TextEditingController();
   final CarouselController _controller = CarouselController();
+
+  int maxlenth = 10;
   int _current = 0;
   Color btn1 = darkText;
   Color btn2 = white;
@@ -51,21 +78,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String ing = '110';
   String lat = '45';
   String customerid = '';
-  TextEditingController idcontroller = TextEditingController();
 
-  TextEditingController haddress1contrller = TextEditingController();
-  TextEditingController haddress2contrller = TextEditingController();
-  TextEditingController hcitycontroller = TextEditingController();
-
-  TextEditingController ofaddress1contrller = TextEditingController();
-  TextEditingController ofaddress2contrller = TextEditingController();
-  TextEditingController ofcitycontroller = TextEditingController();
-
-  TextEditingController otaddress1contrller = TextEditingController();
-  TextEditingController otaddress2contrller = TextEditingController();
-  TextEditingController otcitycontroller = TextEditingController();
 
   List<AddressList> addresslists = [];
+
+
+  //Get Customer Address Dta
 
   Future<List<AddressList>> GetCustomerAddressList(String customerid) async {
     print(customerid);
@@ -190,6 +208,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+
+//Adress Veriables
+
+
+
   String homeaddress1 = ' ',
       homeaddress2 = '',
       homecity = '',
@@ -205,13 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       othercity = '',
       otherlatitude = '',
       otherlogitude = '';
-  Apicontroller apicontroller = Apicontroller();
-
-  final fullNameControlleer = TextEditingController();
-  final phoneNumberControlleer = TextEditingController();
-  final emailControlleer = TextEditingController();
-
-  final addressControlleer = TextEditingController();
+  
 
   final fullNameFocusNode = FocusNode();
   final phoneNumberFocusNode = FocusNode();
@@ -222,12 +239,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool officeswitch = true;
   bool otherswitch = true;
   bool elog = true;
-  // ignore: non_constant_identifier_names
   String phone_number = '';
-
-  String newemail = '';
+   String newemail = '';
   int itemindex = 1;
   String id = "";
+
+
+//Get User Dta
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
@@ -242,14 +260,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    print("init state called");
+   
     getUserData();
-
     getcustomerdata();
 
     super.initState();
   }
 
+//Get Customer Data
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();
     setState(() {
@@ -362,8 +380,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-
-                
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

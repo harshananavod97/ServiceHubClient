@@ -1,19 +1,23 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/model/JobProvider.dart';
 import 'package:servicehub_client/model/providerDetails.dart';
-import 'package:servicehub_client/screen/appoinment_complete_screen.dart';
-import 'package:servicehub_client/screen/payment_screen.dart';
+import 'package:servicehub_client/screen/Appoiment/appoinment_complete_screen.dart';
+import 'package:servicehub_client/screen/Payment/payment_screen.dart';
 import 'package:servicehub_client/styles.dart';
 import 'package:servicehub_client/utils/constant.dart';
 import 'package:servicehub_client/widget/rounded_button.dart';
 import 'package:intl/intl.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+
+
+
 
 class AppoinmentInfo2Screen extends StatefulWidget {
   const AppoinmentInfo2Screen(
@@ -32,21 +36,7 @@ class AppoinmentInfo2Screen extends StatefulWidget {
 class _AppoinmentInfo2ScreenState extends State<AppoinmentInfo2Screen> {
   String providerid = '';
 
-  // getUserData() async {
-  //   final ids = await SharedPreferences.getInstance();
-  //   final idss = await SharedPreferences.getInstance();
-
-  //   setState(() {
-  //     ids.getString("id").toString().isNotEmpty
-  //         ? providerid = ids.getString("id").toString()
-  //         : providerid = idss.getString("id").toString();
-  //   });
-
-  //   // ignore: prefer_interpolation_to_compose_strings
-  //   print("my id is" + providerid);
-
-  //   //await prefs.setBool('isLogged', false);
-  // }
+ 
   String fcmkey = "";
   getproviderrdata() async {
     final providerdetails = await SharedPreferences.getInstance();
@@ -58,6 +48,10 @@ class _AppoinmentInfo2ScreenState extends State<AppoinmentInfo2Screen> {
   Apicontroller apicontroller = Apicontroller();
   List<JobProvider> jobprovider = [];
   List<ProviderDetails> providerlist = [];
+
+
+//Get Provider Details
+
   Future<List<ProviderDetails>> getProviderDetails(String id) async {
     providerlist.clear();
     var url = Uri.parse(
@@ -128,6 +122,8 @@ class _AppoinmentInfo2ScreenState extends State<AppoinmentInfo2Screen> {
 
               await getproviderrdata();
               //send push notification for client reqest for job
+
+
               //-==============================================================================================
               apicontroller.SendPushNotification(
                   fcmkey.toString(), "Cancle The Job", "Cancled", context);

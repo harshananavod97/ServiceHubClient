@@ -1,15 +1,19 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import 'package:servicehub_client/Colors.dart';
 import 'package:intl/intl.dart';
 import 'package:servicehub_client/model/providerDetails.dart';
-import 'package:servicehub_client/screen/request_detail_screen.dart';
+import 'package:servicehub_client/screen/Provider%20Reqest/request_detail_screen.dart';
 import 'package:servicehub_client/styles.dart';
 import 'package:servicehub_client/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
+
+
+
+
+
+
 
 class RequestListScreen extends StatefulWidget {
   const RequestListScreen({super.key, required this.myindex});
@@ -20,10 +24,16 @@ class RequestListScreen extends StatefulWidget {
 }
 
 class _RequestListScreenState extends State<RequestListScreen> {
+
+
   int providerindex = 0;
   int passindex = 0;
+
+
+  //Get ProvideR Details
+
   List<ProviderDetails> providerlist = [];
-  Future<List<ProviderDetails>> getProviderDetails(String id) async {
+  Future<List<ProviderDetails>> GetProviderRequestList(String id) async {
     providerlist.clear();
     var url = Uri.parse(
         // ignore: prefer_interpolation_to_compose_strings
@@ -52,7 +62,7 @@ class _RequestListScreenState extends State<RequestListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("job id :" + widget.myindex.toString());
+    
   }
 
   @override
@@ -70,7 +80,7 @@ class _RequestListScreenState extends State<RequestListScreen> {
               style: screenTitle,
             ),
             FutureBuilder(
-              future: getProviderDetails(widget.myindex.toString()),
+              future: GetProviderRequestList(widget.myindex.toString()),
               builder:
                   (context, AsyncSnapshot<List<ProviderDetails>> snapshot) {
                 if (snapshot.hasData) {

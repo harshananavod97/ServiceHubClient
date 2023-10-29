@@ -7,10 +7,9 @@ import 'package:servicehub_client/Notifications/getfcm.dart';
 import 'package:servicehub_client/api/api_controller.dart';
 import 'package:servicehub_client/model/ServiceCategory.dart';
 import 'package:servicehub_client/model/appoiments.dart';
-import 'package:servicehub_client/screen/all_service_category.dart';
-import 'package:servicehub_client/screen/appoinment_task_screen.dart';
-import 'package:servicehub_client/screen/appontment_screen.dart';
-import 'package:servicehub_client/screen/multiple_poiunts_address.dart';
+import 'package:servicehub_client/screen/Main%20Screens/all_service_category.dart';
+import 'package:servicehub_client/screen/Task/appoinment_task_screen.dart';
+import 'package:servicehub_client/screen/Appoiment/appontment_screen.dart';
 import 'package:servicehub_client/utils/Navigation_Function.dart';
 import 'package:servicehub_client/utils/constant.dart';
 import 'package:servicehub_client/widget/appoinment_card.dart';
@@ -27,6 +26,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //capitalize the first letter of each word
+
   String _capitalizeWords(String str) {
     List<String> words = str.split(' ');
     for (int i = 0; i < words.length; i++) {
@@ -39,7 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
   String customerid = '';
   bool _isButtonOn = true;
   String fcmKey = "";
-  void _incrementCounter() async {
+
+
+  //Get Fcm Key
+  void GetFcmToken() async {
     fcmKey = (await getFcmToken())!;
 
     Logger().i('FCM Key : $fcmKey');
@@ -48,19 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _incrementCounter();
-
+    GetFcmToken();
     getServiceCategory();
     getUserData();
-
     getUpocomingApoiment(customerid);
   }
 
-  void _toggleButton() {
-    setState(() {
-      _isButtonOn = !_isButtonOn;
-    });
-  }
+  
+//Get User Data
 
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
@@ -72,17 +71,18 @@ class _HomeScreenState extends State<HomeScreen> {
           : customerid = idss.getString("id").toString();
       apicontroller.getcustomerdetails(customerid, context);
     });
-
-    // ignore: prefer_interpolation_to_compose_strings
     print("my id is" + customerid);
-
-    //await prefs.setBool('isLogged', false);
   }
 
+//showing Service Count
   int count = 6;
-//create list for service names
-  List<Datum> servicenameslist = [];
-//GetList of Service  Categories(main page load)
+
+//Service Name List
+List<Datum> servicenameslist = [];
+
+
+
+//Add Service Catergory List
 
   Future<List<Datum>> getServiceCategory() async {
     // ignore: prefer_interpolation_to_compose_strings
@@ -93,13 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
     print(response.body);
     var data = json.decode(response.body);
     if (response.statusCode == 200) {
-      // If the server returns a 200 OK response, parse the JSON
+      
       print('load sucess');
 
       final appontment = sericeNamesFromJson(response.body);
-
-      // print("appointment " + appontment.length.toString());
-
       servicenameslist.addAll(appontment.data);
       print(response.body);
 
@@ -111,7 +108,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  List<ApoinmentList> apoinmentlist = [];
+
+//Customer  Upcoming Appoinments List
+ List<ApoinmentList> apoinmentlist = [];
+
+
+ //Get Customer Upcoming Appoinments
+ 
   Future<List<ApoinmentList>> getUpocomingApoiment(String id) async {
     apoinmentlist.clear();
     var url = Uri.parse(
@@ -140,6 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
       throw Exception('Failed to load data');
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {

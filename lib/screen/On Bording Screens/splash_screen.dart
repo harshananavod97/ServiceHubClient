@@ -10,10 +10,11 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //Splash Method
     Timer(const Duration(seconds: 2), () {
       Provider.of<AuthProvider>(context, listen: false).initializeUser(context);
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-      //     builder: (BuildContext context) => const ProfileScreen()));
+      
     });
 
     return const Scaffold(

@@ -1,27 +1,17 @@
-// ignore_for_file: non_constant_identifier_names, avoid_print
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
-import 'package:servicehub_client/Colors.dart';
-import 'package:servicehub_client/controller/auth_conroller.dart';
-import 'package:servicehub_client/provider/auth_provider.dart';
-
-import 'package:servicehub_client/screen/login_screen.dart';
-import 'package:servicehub_client/screen/main_screen.dart';
-import 'package:servicehub_client/screen/task_complete_screen.dart';
-
-import 'package:servicehub_client/screen/verification_screen.dart';
+import 'package:servicehub_client/screen/On%20Bording%20Screens/login_screen.dart';
+import 'package:servicehub_client/screen/Main%20Screens/Drawer.dart';
+import 'package:servicehub_client/screen/Task/task_complete_screen.dart';
+import 'package:servicehub_client/screen/Profile/verification_screen.dart';
 import 'package:servicehub_client/utils/Navigation_Function.dart';
 import 'package:servicehub_client/utils/constant.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Apicontroller extends ChangeNotifier {
+//  Register Api
   // ignore: duplicate_ignore
   register(String email, phone_number, full_name, fcm_key,
       BuildContext context) async {
@@ -106,6 +96,8 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
+//FaceBook Register API
+
   fbgoogleregister(
       String email, phone_number, full_name, BuildContext context) async {
     final ids = await SharedPreferences.getInstance();
@@ -185,7 +177,7 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
-//otp genrate
+//Genarate Otp Api
   otpgenarate(String phone_number, BuildContext context) async {
     final idss = await SharedPreferences.getInstance();
     Map data = {
@@ -248,7 +240,7 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
-//"Validate OTP
+//"Validate OTP Api
   validateotp(String id, String otp, BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -310,7 +302,7 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
-//"resend OTP
+//"resend OTP Api
   resendotp(String otp, BuildContext context) async {
     Map data = {
       'resend-otp': otp,
@@ -372,21 +364,15 @@ class Apicontroller extends ChangeNotifier {
       fullname = jsonResponse['full_name'].toString();
       email = jsonResponse['email'].toString();
       phonenumber = jsonResponse['phone_number'].toString();
-      //Or put here your next screen using Navigator.push() method
-      // await customerdetails.setString('full_name', fullname);
-      // await customerdetails.setString('email', email);
-      // await customerdetails.setString('phone_number', phonenumber);
-      //getcustomerdetails(id);
 
       Logger().i('update sucess');
-      // NavigationUtillfunction.navigateTo(context, MainScreen());
     } else {
       Logger().i('error');
-      // NavigationUtillfunction.navigateTo(context, MainScreen());
     }
   }
 
-//create customer create address (my address in profile screen)
+//create customer Address
+
   CreaterCustomeraddressId(
       String id,
       String adreesstype,
@@ -464,7 +450,8 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
-//Customer Address by ID (address create karanawa)
+//Customer Address by ID
+
   addressbyid(String id) async {
     // ignore: prefer_interpolation_to_compose_strings
     var url = Uri.parse(constant.APPEND_URL + 'customer-address?id=$id');
@@ -549,12 +536,6 @@ class Apicontroller extends ChangeNotifier {
         jsonResponse['full_name'] == null ||
         jsonResponse['email'] == null) {
       await prefs.setBool("isLogged", false);
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => LoginScreen(),
-      //   ),
-      // );
     }
 
     await customerdetails.setString('full_name', fullname);
@@ -562,9 +543,9 @@ class Apicontroller extends ChangeNotifier {
     await customerdetails.setString('phone_number', phonenumber);
     print(customerdetails.getString('full_name is  ' + fullname));
     ;
-
-    //Creating a list to store input data;
   }
+
+  //Get UpcomingAppoinments
 
   getUpcomingAppoinments(String id) async {
     //replace your restFull API here.
@@ -600,6 +581,8 @@ class Apicontroller extends ChangeNotifier {
     //Creating a list to store input data;
   }
 
+//Get All APOINMENTS
+
   getAppoinments(String id) async {
     //replace your restFull API here.
     // ignore: prefer_interpolation_to_compose_strings
@@ -615,6 +598,8 @@ class Apicontroller extends ChangeNotifier {
     //Creating a list to store input data;
   }
 
+//Get Request Of Jobs
+
   getRequestJob(String id) async {
     //replace your restFull API here.
     // ignore: prefer_interpolation_to_compose_strings
@@ -629,6 +614,8 @@ class Apicontroller extends ChangeNotifier {
     //Creating a list to store input data;
   }
 
+//GetJobRating Provider
+
   getJobRatingsofProviser(String id) async {
     //replace your restFull API here.
     // ignore: prefer_interpolation_to_compose_strings
@@ -642,6 +629,8 @@ class Apicontroller extends ChangeNotifier {
 
     //Creating a list to store input data;
   }
+
+//Create Appoinments
 
   CreateAppoinment(
     String service_category_id,
@@ -707,6 +696,8 @@ class Apicontroller extends ChangeNotifier {
       );
     }
   }
+
+//Add Job Ratings
 
   Jobrating(String customerid, String job_id, String service_provider_id,
       String rating, String comment, BuildContext context) async {
@@ -777,6 +768,8 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
+//Acept Request
+
   AcceptRequest(
       String service_provider_id, String job_id, String request_id) async {
     Map data = {
@@ -806,6 +799,8 @@ class Apicontroller extends ChangeNotifier {
       Logger().e('error');
     }
   }
+
+//Create Payments
 
   CreatePayment(
       String id,
@@ -855,6 +850,7 @@ class Apicontroller extends ChangeNotifier {
   }
 
   ///get customer name by id
+
   getcustomernamebyid(String id) async {
     //replace your restFull API here.
     // ignore: prefer_interpolation_to_compose_strings
@@ -955,7 +951,7 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
-  //fcm api
+//Send PushNotification
 
   SendPushNotification(
       String fcmkey, String title, String message, BuildContext context) async {
@@ -1006,6 +1002,8 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
+//Remove Provider
+
   RemoveProviderByCustomer(String id, BuildContext context) async {
     // ignore: prefer_interpolation_to_compose_strings
     var url =
@@ -1031,7 +1029,8 @@ class Apicontroller extends ChangeNotifier {
     }
   }
 
-  CustomerFcmKeyUpdate(String Customer_id, String fcm_key) async {
+//Update Fcm Key
+  CustomerFcmKeyUpdat(String Customer_id, String fcm_key) async {
     Map data = {'customer_id': Customer_id, 'fcm_key': fcm_key};
     print("post data $data");
 
@@ -1055,6 +1054,8 @@ class Apicontroller extends ChangeNotifier {
       Logger().e('error');
     }
   }
+
+//Get Provider Deatails
 
   getproviderdetails(String id) async {
     final providerdetails = await SharedPreferences.getInstance();

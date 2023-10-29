@@ -1,17 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
-import 'package:servicehub_client/Colors.dart';
 import 'package:servicehub_client/controller/auth_conroller.dart';
-import 'package:servicehub_client/screen/fb_and_google_verification.dart';
+import 'package:servicehub_client/screen/On%20Bording%20Screens/fb_and_google_verification.dart';
 
-import 'package:servicehub_client/screen/login_screen.dart';
-import 'package:servicehub_client/screen/main_screen.dart';
+import 'package:servicehub_client/screen/On%20Bording%20Screens/login_screen.dart';
+import 'package:servicehub_client/screen/Main%20Screens/Drawer.dart';
 
-import 'package:servicehub_client/utils/Navigation_Function.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -63,6 +62,7 @@ class AuthProvider extends ChangeNotifier {
             prefs.getBool("isLogged").toString());
 
         if (prefs.getBool("isLogged") == true) {
+          // ignore: use_build_context_synchronously
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -87,6 +87,7 @@ class AuthProvider extends ChangeNotifier {
 
     // Create a credential from the access token
   }
+  
 
   Future<void> googleAuth(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -142,6 +143,9 @@ class AuthProvider extends ChangeNotifier {
   
 
   //-------------INTIALIZE USER Method-----------------------------
+
+
+
   Future<void> initializeUser(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -178,6 +182,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   final AuthController _authcontroller = AuthController();
+
+
+
   //logout function
 
   Future<void> logout(BuildContext context) async {
